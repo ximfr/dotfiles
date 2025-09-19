@@ -1,0 +1,140 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+    }
+
+window#waybar {
+background-color: transparent;
+color: black;
+}
+
+#workspaces,
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#custom-spotify,
+#custom-lock,
+#custom-power {
+background-color: white;
+padding: 6px 12px;
+margin: 0 4px;
+border-radius: 12px;
+color: black;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#workspaces {
+padding: 2px 8px;
+}
+
+#workspaces button {
+padding: 4px 8px;
+margin: 2px 2px;
+border-radius: 8px;
+color: black;
+background-color: transparent;
+transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+background-color: transparent;
+color: black;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+background-color: transparent;
+color: black;
+}
+
+#window {
+color: black;
+font-weight: 500;
+}
+
+#clock {
+color: black;
+font-weight: 600;
+font-size: 14px;
+}
+
+#battery {
+color: rgba(224, 176, 255, 0.5);
+}
+
+#battery.critical {
+color: rgba(224, 176, 255, 0.5);
+animation: blink 1s linear infinite alternate;
+}
+
+#battery.warning {
+color: rgba(224, 176, 255, 0.5);
+}
+
+@keyframes blink {
+to {
+opacity: 0.5;
+}
+}
+
+#pulseaudio {
+color: black;
+}
+
+#pulseaudio.muted {
+color: black;
+}
+
+#custom-power {
+color: black;
+font-size: 16px;
+padding: 6px 10px;
+transition: all 0.3s ease;
+}
+
+#custom-power:hover {
+background-color: white;
+color: black;
+}
+
+#custom-lock {
+background-color: white;
+padding: 6px 12px;
+margin: 0 4px;
+border-radius: 12px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+color: black;
+transition: all 0.3s ease;
+}
+
+#custom-lock:hover {
+background-color: white;
+color: rgba(224, 176, 255, 0.1);
+}
+
+#custom-spotify {
+color: black;
+font-weight: 500;
+transition: all 0.3s ease;
+}
+
+#custom-spotify:hover {
+background-color: rgba(30, 215, 96, 0.2);
+color: black;
+}
+
+tooltip {
+background-color: white;
+border: 1px solid rgba(137, 180, 250, 0.3);
+border-radius: 8px;
+color: black;
+font-size: 12px;
+}
+
+tooltip label {
+color: black;
+}

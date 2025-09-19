@@ -1,0 +1,60 @@
+* {
+  text-color: black;
+  background-color: white;
+  selected-text-color: black;
+  selected-background-color: white;
+  border-color: black;
+
+  font: "JetBrainsMono Nerd Font 13";
+}
+
+window {
+  width: 45%;
+  padding: 15px;
+  background-color: @background-color;
+  border: 1px;
+  border-color: @border-color;
+  border-radius: 8px;
+}
+
+inputbar {
+  children: [ prompt, entry ];
+  background-color: @background-color;
+  padding: 8px;
+  border: 1px;
+  border-color: black;
+  border-radius: 8px;
+}
+
+prompt {
+  text-color: @text-color;
+}
+
+entry {
+  text-color: @text-color;
+}
+
+listview {
+  background-color: @background-color;
+  padding: 8px;
+  border-radius: 8px;
+  spacing: 5px;
+  scrollbar: false;
+}
+
+element {
+  padding: 5px;
+  background-color: @background-color;
+  text-color: @text-color;
+  border-radius: 5px;
+}
+
+element selected {
+  background-color: @selected-background-color;
+  text-color: @selected-text-color;
+}
+
+element-text {
+  background-color: transparent;
+  text-color: inherit;
+}

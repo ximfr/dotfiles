@@ -1,0 +1,124 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "spacing": 8,
+    "margin-top": 8,
+    "margin-left": 12,
+    "margin-right": 12,
+
+    
+    "modules-left": ["custom/spotify"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["pulseaudio", "custom/lock", "custom/power"],
+ 
+"hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{icon}",
+    "format-icons": {
+        "1": "一",
+        "2": "二", 
+        "3": "三",
+        "4": "四",
+        "5": "五",
+        "6": "六",
+        "7": "七",
+        "8": "八",
+        "9": "九",
+        "10": "十",
+        "urgent": "!",
+        "focused": "●",
+        "default": ""
+
+        }
+
+    },
+
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 50,
+        "separate-outputs": true
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%Y-%m-%d %H:%M:%S}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+
+        },
+
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon}󰂯 {volume}%",
+        "format-bluetooth-muted": "󰝟󰂯",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰋎",
+            "headset": "󰋎",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol"
+    },
+    
+    "custom/lock": {
+        "format": "",
+        "tooltip-format": "Lock Screen",
+        "on-click": "hyprlock"
+    },
+    
+    "custom/power": {
+        "format": "󰐥",
+        "tooltip": "Power Menu",
+        "on-click": "/home/klode/.config/waybar/scripts/power.sh"
+    },
+    
+    "custom/spotify": {
+        "format": "♪ {}",
+        "max-length": 40,
+        "interval": 5,
+        "exec": "~/.config/waybar/scripts/spotify.sh",
+        "exec-if": "pgrep spotify",
+        "on-click": "~/.config/waybar/scripts/spotify-gui.sh",
+        "on-scroll-up": "playerctl next 2>/dev/null || true",
+        "on-scroll-down": "playerctl previous 2>/dev/null || true",
+        "tooltip": true
+    }
+ },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon}󰂯 {volume}%",
+        "format-bluetooth-muted": "󰝟󰂯",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰋎",
+            "headset": "󰋎",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol"
+    }
+}

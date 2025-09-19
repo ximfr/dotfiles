@@ -1,0 +1,73 @@
+* {
+    background-color: transparent;
+    text-color: #cdd6f4;
+    font: "JetBrainsMono Nerd Font 12";
+}
+
+window {
+    location: northeast;
+    anchor: northeast;
+    width: 200px;
+    x-offset: -12px;
+    y-offset: 48px;
+    background-color: rgba(69, 71, 90, 0.95);
+    border: 1px solid rgba(137, 180, 250, 0.3);
+    border-radius: 12px;
+    padding: 0px;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ inputbar, listview ];
+    spacing: 0px;
+    padding: 8px;
+}
+
+inputbar {
+    background-color: rgba(88, 91, 112, 0.8);
+    text-color: #cdd6f4;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 0px 0px 8px 0px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color: #89b4fa;
+    padding: 0px 8px 0px 0px;
+}
+
+entry {
+    background-color: transparent;
+    text-color: #cdd6f4;
+    placeholder: "";
+}
+
+listview {
+    background-color: transparent;
+    padding: 0px;
+    spacing: 4px;
+    cycle: true;
+    dynamic: true;
+    layout: vertical;
+}
+
+element {
+    background-color: transparent;
+    text-color: #cdd6f4;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+element selected {
+    background-color: rgba(137, 180, 250, 0.2);
+    text-color: #89b4fa;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+}
