@@ -1,1 +1,1 @@
-i use rofi btw
+dont use these dots theyre a wop
