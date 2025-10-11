@@ -1,0 +1,66 @@
+
+.recordcover {
+  transition: 500ms;
+  border-radius: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 1.0;
+  margin: 10px;
+  &.unround {
+    border: solid 1px $muted;
+    border-radius: $round;
+    margin: 0px;
+  }
+}
+
+.recordshadow {
+  margin: 10px;
+  transition: 500ms;
+  border-radius: 500px;
+  box-shadow: 5px 5px 4px black;
+  &.unround {
+    border-radius: $round;
+    margin: 0px;
+  }
+}
+
+.recordcenter {
+  transition: 500ms;
+  border-radius: 500px;
+  background-color: $overlay;
+  padding: 28px;
+}
+
+.recordcentercenter {
+  transition: 500ms;
+  border-radius: 500px;
+  background-color: $muted;
+  padding: 5px;
+}
+
+.artisttext {
+  color: $muted;
+  font-size: 15px;
+}
+
+.trickcover {
+  background-color: $overlay;
+  margin-top: -70;
+  margin-bottom: 11px;
+  margin-left: 0px;
+  margin-right: -10px;
+  border-bottom: solid 1px $muted;
+  border-top: solid 1px $muted;
+}
+
+.trickcoverround {
+  margin-top: -80px;
+  margin-bottom: 70px;
+  margin-left: 0px;
+  margin-right: -10px;
+  border-bottom: solid 1px $muted;
+  border-right: solid 1px $muted;
+  border-bottom-right-radius: $round;
+  box-shadow: 3px 3px 0px $overlay;
+}

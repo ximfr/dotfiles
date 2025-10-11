@@ -1,0 +1,219 @@
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+  color: white;
+}
+
+/* Calendar widget styling */
+.calendar-box {
+  background-color: #0f0f0f;
+  border-radius: 19px;
+
+  padding: 15px;
+}
+
+calendar {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 5px;
+  border-color: #ddb6f2;
+  border: 3px;
+  color: #f0f0f0; /* Slightly dimmed text color */
+  background-color: #0f0f0f;
+}
+
+/* Current day styling only */
+calendar:selected {
+  background: linear-gradient(
+    135deg,
+    #f5c2e7 0%,
+    #f28fad 100%
+  ); /* Darker mint gradient */
+  color: #0f0f0f; /* Dark text for contrast */
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(143, 207, 186, 0.4); /* Shadow only on current day */
+}
+
+/* Make all non-current days consistent #0f0f0f background */
+calendar:hover,
+calendar:active,
+calendar:focus {
+  background-color: #0f0f0f; /* Force background to remain dark */
+  box-shadow: none; /* No shadow on hover */
+}
+
+/* Days from other months */
+calendar:indeterminate {
+  color: #f5c2e7; /* Darker shade for inactive days */
+  background-color: #0f0f0f;
+}
+
+calendar.header {
+  color: #bebebe; /* Slightly darker header */
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Month/Year navigation buttons */
+calendar.button {
+  color: #a0a0a0;
+  background-color: #0f0f0f;
+}
+
+calendar.button:hover {
+  background-color: #222222; /* Darker hover for buttons */
+  color: #c8c8c8;
+}
+
+/* Force selected day to maintain its styling even on hover */
+calendar:selected:hover {
+  background: linear-gradient(135deg, #8fcfba 0%, #71aa99 100%);
+  color: #0f0f0f;
+  box-shadow: 0 0 8px rgba(143, 207, 186, 0.4);
+}
+
+calendar.button,
+calendar.header {
+  font-weight: bold;
+}
+
+/* Day of week headers (Sun, Mon, Tue, etc) */
+calendar.highlight {
+  background: transparent;
+  color: #9ecb91; /* Darker day headers */
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.sleep-text,
+.power-off-text,
+.lock-text,
+.logout-text,
+.reboot-text {
+  font-size: 20px;
+  font-family: "Iosevka Nerd Font Propo";
+}
+
+.sleep-box,
+.power-off-box,
+.lock-box,
+.logout-box,
+.reboot-box {
+  background-color: #0f0f0f;
+  padding: 0px;
+  margin: 10px;
+  border-radius: 13px;
+  transition: all 0.3s ease;
+}
+
+/* Make buttons fill their container boxes */
+.sleep-box button,
+.power-off-box button,
+.lock-box button,
+.logout-box button,
+.reboot-box button {
+  padding: 10px 20px;
+  border-radius: 13px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+}
+
+/* Gradient hover effects for each button */
+.lock-box button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(200, 182, 255, 0.4);
+}
+
+.sleep-box button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(184, 224, 210, 0.4);
+}
+
+.logout-box button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(216, 226, 220, 0.4);
+}
+
+.reboot-box button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(255, 214, 186, 0.4);
+}
+
+.power-off-box button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(255, 173, 173, 0.4);
+}
+
+/* Change the text color on hover to the original background color */
+.lock-box button:hover .sleep-text,
+.sleep-box button:hover .sleep-text,
+.logout-box button:hover .sleep-text,
+.reboot-box button:hover .sleep-text,
+.power-off-box button:hover .sleep-text {
+  color: #0f0f0f;
+}
+
+.main-box {
+  background-color: #0a0a0a;
+  padding: 4px;
+  margin: 480px 690px;
+  border-radius: 19px;
+}
+
+
+// --- Palette & Variables inspired by your theme ---
+$background: #1e1e2e;      // A dark, slightly blueish base color from your screenshot
+$surface: #313244;         // A lighter surface for the progress bar track
+$shadow-color: rgba(0, 0, 0, 0.45); // A deep, soft shadow for the floating effect
+$text-color: #cdd6f4;        // The primary off-white text color
+
+// --- The Main Popup Window (NO BORDER) ---
+.volume-popup {
+  background-color: #0f0f0f;
+  border-radius: 24px; // A modern, rounded look
+  padding: 1rem 1.5rem;
+  // A soft, diffused shadow for a clean floating effect, replacing the border
+ // box-shadow: 0 8px 24px $shadow-color;
+}
+
+// --- Icons and Text ---
+.volume-icon {
+  font-size: 24px;
+  min-width: 30px;
+  color: #f0f0f0;
+  margin-right: 10px;
+}
+
+.volume-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #f0f0f0;
+  min-width: 60px;
+}
+
+// --- The Volume Bar ---
+.volume-bar-container {
+  min-width: 200px;
+}
+
+// The track/background of the bar (NO BORDER)
+.volume-bar trough {
+  background-color: #0f0f0f;// Visible dark gray-blue, not black
+  border-radius: 50px; // A perfect pill shape
+  min-height: 12px;
+}
+
+// The filled/progress part of the bar
+.volume-bar highlight {
+  border-radius: 50px;
+  min-height: 12px;
+     background: linear-gradient(90deg, #89b4fa, #94e2d5 , #cba6f7 , #f38ba8 );
+}
+
+.volume-bar slider {
+  background: transparent;
+  border: none;
+}

@@ -1,0 +1,120 @@
+(defwindow pwrmnu
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%" :anchor "center")
+  :stacking "overlay"
+  :focusable false
+  (eventbox :onclick "eww close pwrmnu" ; Close on any click
+    (box :orientation "horizontal" :class "main-box"
+      (lock)
+      (sleep)
+      (logout)
+      (reboot)
+      (power-off)
+    )
+  )
+)
+
+
+
+(defwindow calendarwidget
+  :monitor 0
+  :geometry (geometry :x "0.5%" :y "0.4%" :width "0%" :height "0%" :anchor "top left")
+  :stacking "fg"
+  :focusable false
+  (calendar_layout))
+
+(defwidget calendar_layout []
+  (box :class "calendar-box"
+    (calendar :class "cal"
+              )))
+
+(defpoll calendar_day :interval "1h" "date '+%d'")
+(defpoll calendar_month :interval "1h" "date '+%m'")
+(defpoll calendar_year :interval "1h" "date '+%Y'")
+
+
+
+
+(defwidget lock []
+  (box :orientation "horizontal" :align "center" :class "lock-box"
+    (button :onclick "hyprlock ; eww close pwrmnu"
+      (label :text " 󰌾 " :class "sleep-text"))
+  )
+)
+(defwidget logout []
+  (box :orientation "horizontal" :align "center" :class "logout-box"
+    (button :onclick "niri msg action quit; hyprctl dispatch exit"
+      (label :text "  " :class "sleep-text"))
+  )
+)
+(defwidget reboot []
+  (box :orientation "horizontal" :align "center" :class "reboot-box"
+    (button :onclick "reboot"
+      (label :text "  " :class "sleep-text"))
+  )
+)
+(defwidget power-off []
+  (box :orientation "horizontal" :align "center" :class "power-off-box"
+    (button :onclick "poweroff"
+      (label :text "  " :class "sleep-text"))
+  )
+)
+(defwidget sleep []
+  (box :orientation "horizontal" :align "center" :class "sleep-box"
+    (button :onclick "systemctl suspend ; eww close pwrmnu"
+      (label :text " 󰒲 " :class "sleep-text"))
+  )
+)
+
+
+; new thig here 
+
+(defvar current_volume 50)
+(defvar actual_volume 75)
+(defvar is_muted false)
+
+(defwidget volume_popup []
+  (box :class "volume-popup"
+       :orientation "v"
+       :space-evenly false
+       :spacing 10
+    (box :orientation "h"
+         :space-evenly false
+         :spacing 15
+         :halign "center"
+      (label :class "volume-icon"
+             :text {is_muted ? "🔇" :
+                    current_volume <= 0 ? "󰝟 " : 
+                    current_volume <= 30 ? "󰕿" : 
+                    current_volume <= 70 ? "󰖀" : "󰕾 "})
+      (label :class "volume-text"
+             :text {is_muted ? "MUTED" : "${actual_volume}%"}))
+    (box :class "volume-bar-container"
+         :halign "fill"
+      (scale :class "volume-bar"
+             :value {is_muted ? 0 : current_volume}
+             :min 0
+             :max 100
+             :onchange "eww update volume_slider_value={}"))))
+
+(defwindow volume_window
+  :monitor 0
+  :geometry (geometry :x "50%"
+                     :y "80px"
+                     :width "300px"
+                     :height "80px"
+                     :anchor "top center")
+  :stacking "overlay"
+  :reserve (struts :distance "0px" :side "top")
+  :windowtype "normal"
+  :wm-ignore true
+  :focusable true  ; Changed to true for keybindings
+  :keybind "Escape;BackSpace"  ; Add ESC key support
+  :layer "top" 
+  (volume_popup))
+
+; Add this new widget to handle slider changes
+(defwidget volume_slider_handler []
+  (box :onscroll "eww update volume_slider_value=$(echo \"$EWW_SCROLL_AMOUNT * 5 + $volume_slider_value\" | bc | awk '{if ($1 < 0) print 0; else if ($1 > 100) print 100; else print $1}')"
+       :onchange "./volume_monitor.sh slider $volume_slider_value"
+       (box :visible false)))
