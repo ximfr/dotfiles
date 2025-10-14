@@ -4,147 +4,119 @@
     font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
     font-size: 13px;
     min-height: 0;
-    }
+}
 
 window#waybar {
-background: #000000;
-background: linear-gradient(108deg,rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.67) 100%);
-border-radius: 14px;
+    background: transparent;
+    border-radius: 14px;
 }
+
 #workspaces,
 #window,
-#clock,
 #battery,
-#pulseaudio,
-#custom-spotify,
 #custom-lock,
 #custom-random-wallpaper,
-#custom-power {
-background-color: rgba(0,0,0, 1);
-padding: 6px 12px;
-margin: 0 4px;
-border-radius: 12px;
-color: white;
-box-shadow: transparent;
+#group-window,
+#clock,
+#datetime-power {
+    background-color: black;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 4px 5px;
+    color: white;
+}
+#wlr-taskbar {
+    background-color: black;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 4px 5px;
+    color: white;
 }
 
 #workspaces {
-padding: 2px 8px;
+    padding: 0 4px;
 }
 
 #workspaces button {
-padding: 4px 8px;
-margin: 2px 2px;
-border-radius: 8px;
-color: white;
-background-color: rgba(0,0,0, 1);
-transition: all 0.3s ease;
+    background-color: black;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 1px;
+    color: white;
 }
-
 #workspaces button:hover {
-background-color: rgba(0,0,0, 1);
-color: black;
-}
-
-#workspaces button.focused,
-#workspaces button.active {
-background-color: rgba(0,0,0, 1);
-color: white;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #window {
-color: white;
-font-weight: 500;
-}
-
-#clock {
-color: white;
-font-weight: 600;
-font-size: 14px;
+    color: white;
+    font-weight: 500;
 }
 
 #battery {
-color: rgba(224, 176, 255, 0.5);
+    color: rgba(224, 176, 255, 0.5);
+}
+
+#battery.critical,
+#battery.warning {
+    color: rgba(224, 176, 255, 0.5);
 }
 
 #battery.critical {
-color: rgba(224, 176, 255, 0.5);
-animation: blink 1s linear infinite alternate;
-}
-
-#battery.warning {
-color: rgba(224, 176, 255, 0.5);
+    animation: blink 1s linear infinite alternate;
 }
 
 @keyframes blink {
-to {
-opacity: 0.5;
-}
-}
-
-#pulseaudio {
-color: white;
+    to {
+        opacity: 0.5;
+    }
 }
 
-#pulseaudio:hover{
-background-color: white;
-color: black;
-}
-
-#custom-power {
-color: white;
-font-size: 16px;
-padding: 6px 10px;
-transition: all 0.3s ease;
-}
-
-#custom-power:hover {
-background-color: white;
-color: black;
-}
-
-#custom-lock {
-background-color: rgba(0,0,0, 1);
-padding: 6px 12px;
-margin: 0 4px;
-border-radius: 12px;
-box-shadow: transparent;
-color: white;
-transition: all 0.3s ease;
-}
-
-#custom-lock:hover {
-background-color: white;
-color: black;
-}
-
-#custom-spotify {
-color: white;
-font-weight: 500;
-transition: all 0.3s ease;
-}
-
-#custom-spotify:hover {
-background-color: white;
-color: black;
+#group-window #pulseaudio {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 8px 0 0;
+    color: inherit;
 }
 
 
-#custom-random-wallpaper:hover {
-background-color: rgba(0,0,0, 1);
-color: black;
+#datetime-power #clock {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 8px 0 0;
+    color: inherit;
 }
 
+#datetime-power #custom-power {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+}
+
+#group-work-clock {
+    padding: 0;
+}
+
+#clock {
+    background-color: black;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 4px 5px;
+    color: white;
+}
 tooltip {
-background-color: transparent;
-border: 1px solid rgba(137, 180, 250, 0.3);
-border-radius: 8px;
-color: white;
-font-size: 12px;
+    background-color: black;
+    border: 1px solid rgba(137, 180, 250, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 12px;
 }
 
 tooltip label {
-color: black;
-} 
-
-
+    color: white;
+}

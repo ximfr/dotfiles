@@ -4,124 +4,130 @@
     "height": 40,
     "spacing": 8,
     "margin-top": 8,
-    "margin-left": 500,
-    "margin-right": 500,
+    "output": "HDMI-A-1",  // remove this if u dont want ur waybar on 1 monitor.(orcustomizeit)
 
-    
-    "modules-left": [],
-    "modules-center": ["pulseaudio", "custom/spotify", "hyprland/workspaces", "custom/random-wallpaper", "custom/lock", "custom/power"],
-    "modules-right": [],
-   
-   
-"custom/random-wallpaper": {
-        "format": "󰑤",
-        "tooltip-format": "Random Wallpaper",
-        "on-click": "waypaper --random"
+     
+    "modules-left": ["group/window"],
+    "modules-center": ["clock", "hyprland/workspaces"], 
+    "modules-right": ["group/datetime-power"], 
+
+
+    "group/window": {
+        "orientation": "horizontal",
+        "modules": ["pulseaudio", "custom/hyprland-window"]
     },
- 
-"hyprland/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{icon}",
-    "format-icons": {
-        "1": "一",
-        "2": "二", 
-        "3": "三",
-        "4": "四",
-        "5": "五",
-        "6": "六",
-        "7": "七",
-        "8": "八",
-        "9": "九",
-        "10": "十",
-        "urgent": "!",
-        "focused": "●",
-        "default": ""
 
+
+    "group/datetime-power": {
+        "orientation": "horizontal",
+        "modules": ["wlr/taskbar", "custom/power"]
+    },
+
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "一", "2": "二", "3": "三", "4": "四", "5": "五",
+            "6": "六", "7": "七", "8": "八", "9": "九", "10": "十",
+            "urgent": "!",
+            "focused": "●",
+            "default": ""
         }
-
-    },
-
-    "hyprland/window": {
-        "format": "{title}",
-        "max-length": 50,
-        "separate-outputs": true
     },
 
     "clock": {
-        "format": "{:%H:%M}",
-        "format-alt": "{:%Y-%m-%d %H:%M:%S}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-
+        "on-click": "",
+        "format": "{:%I:%M %p}",
+        "format-alt": "{:%d-%m-%Y}"
     },
 
-    "battery": {
+    "pulseaudio": {
+        "scroll-step": 0.5,
+        "max-volume": 150,
         "states": {
             "warning": 30,
-            "critical": 15
-
+            "normal": 89,
+            "critical": 150
         },
-
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰚥 {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-
+        "format": "   ",
+        "format-icons": {
+            "default": ["   ", "   ", "   ", "   ", "   ","   ","   ", "   ", "   "]
+        },
+        "format-muted": "",
+        "on-click": "pavucontrol",
+        "tooltip": false
     },
 
-        "pulseaudio": {
-            "scroll-step": 0.5,
-            "max-volume": 150,
-            "states": {
-                "warning": 30,
-                "normal": 89,
-                "critical": 150
-            },
-            "format": "{icon}",
-            "format-icons": {
-                "default": [
-                    "",
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    "  ",
-                    "  ",
-                    "  ",
-                ],
-            },
-            "format-muted": " ",
-            "on-click": "pavucontrol",
-            "tooltip": false,
-},
-    "custom/lock": {
-        "format": "",
-        "tooltip-format": "Lock Screen",
-        "on-click": "hyprlock"
-    },
-    
     "custom/power": {
         "format": " 󰐥 ",
         "tooltip": "Power Menu",
         "on-click": "eww open pwrmnu"
     },
+
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 16,
+        "icon-theme": "Papirus",
+        "tooltip": true,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "active-first": true,
+        "all-outputs": true,
+        "app-ids-exclude": [
+            "waybar"
+        ],
+        "ignore-list": [
+            "waybar",
+            "Alacritty",
+            "kitty",
+            "foot",
+            "Gnome-terminal",
+            "org.gnome.Terminal",
+            "io.elementary.Terminal",
+            "Code",
+            "code-oss",
+            "geany",
+            "atom",
+            "Thunar",
+            "nautilus",
+            "dolphin",
+            "org.gnome.Nautilus",
+            "org.kde.dolphin",
+            "Gnome-control-center",
+            "org.kde.plasma.SystemSettings",
+            "pavucontrol",
+            "nm-connection-editor",
+            "blueman-manager",
+            "wlogout",
+            "imv",
+            "Gimp",
+            "Inkscape",
+            "TelegramDesktop",
+            "discord",
+            "Slack",
+            "gnome-text-editor"
+        ]
+    },
     
-    "custom/spotify": {
-        "format": "♪ {}",
-        "max-length": 40,
-        "interval": 5,
-        "exec": "~/.config/waybar/scripts/spotify.sh",
-        "exec-if": "pgrep spotify",
-        "on-click": "~/.config/waybar/scripts/spotify-gui.sh",
-        "on-scroll-up": "playerctl next 2>/dev/null || true",
-        "on-scroll-down": "playerctl previous 2>/dev/null || true",
-        "tooltip": true
+    
+
+
+    "custom/hyprland-window": {
+        "exec": "playerctl metadata -f '{{ artist }} - {{ trunc(title, 25) }}'",
+        "exec-if": "playerctl status 2>/dev/null",
+        "interval": 2,
+        "tooltip": true,
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous",
+        "format": "{icon} {text}",
+        "format-icons": {
+            "Playing": "  ",
+            "Paused": " ",
+            "default": ""
+        }
     }
 }
-
-
-
-
