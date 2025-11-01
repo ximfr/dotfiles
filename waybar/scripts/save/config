@@ -40,8 +40,8 @@
     
    "custom/theme": {
   "format": "   ",
-  "tooltip": "click to find out",
-  "on-click": "waypaper --random"
+  "tooltip": "Change Waybar Theme",
+  "on-click": "~/.config/waybar/scripts/waybar-theme.sh"
 },
 
 
