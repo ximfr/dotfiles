@@ -13,17 +13,16 @@ window#waybar {
 
 #workspaces,
 #battery,
-#custom-hyprland-spotify,
-#clock,
-#wlr-taskbar,
-#custo-cava,
-#custom-hyprland-window { 
+#custom-hyprland-spotify { 
 background-color: black;
     border-radius: 10px;
     padding: 0 10px;
-    margin: 4px 5px;
+    margin: 4px 5px;  
     color: white;
 }
+#clock,
+#custom-cava,
+#custom-hyprland-window,
 #datetime-power {
     background-color: black;
     border-radius: 10px;
@@ -71,6 +70,7 @@ background-color: black;
         opacity: 0.5;
     }
 }
+s
 
 #group-window #pulseaudio {
     background-color: transparent;
@@ -124,6 +124,15 @@ background-color: black;
     font-family: "bargraph";
     font-size: 22px;
 }
+#datetime-power button:hover { 
+    background-color: black;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 4px 5px;
+    color: black;
+}
+
+
 
 
 tooltip {
