@@ -32,13 +32,13 @@
 (defwidget reboot []
   (box :orientation "horizontal" :align "center" :class "reboot-box"
     (button :onclick "reboot"
-      (label :text "  " :class "sleep-text"))
+      (label :text " 󰜉 " :class "sleep-text"))
   )
 )
 (defwidget power-off []
   (box :orientation "horizontal" :align "center" :class "power-off-box"
     (button :onclick "poweroff"
-      (label :text "  " :class "sleep-text"))
+      (label :text "  󰐥 " :class "sleep-text"))
   )
 )
 (defwidget sleep []
@@ -112,9 +112,9 @@
         (Previous)
         (Play/Pause)
         (Next)
-      )
-    )
-  )
+     )
+   )
+ )
 )
 
 (defpoll spotify_cover :interval "3s" "bash ~/.config/eww/scripts/spotify-cover.sh")
@@ -157,7 +157,6 @@
       (label :text "⏭︎" :style "font-size: 16px;"))
   )
 )
-
 
 
 
