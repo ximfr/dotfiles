@@ -1,1 +1,1 @@
-dont use these dots theyre a wop
+w quickshell 
