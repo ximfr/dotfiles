@@ -25,6 +25,7 @@ Item {
 
     ListModel { id: wallpaperModel }
 
+
     Process {
         id: scanProcess
         stdout: StdioCollector {
@@ -67,10 +68,7 @@ Item {
     function applyWallpaper(path) {
         if (!path) return
         
-        // Extracts 1 EXACT single dominant pixel color from the image without blending
-        var getSingleColor = "python3 -c \"from PIL import Image; img=Image.open('" + path + "').convert('RGB').resize((60,60)); colors=sorted(img.getcolors(3600), key=lambda x:x[0], reverse=True); best=next((c[1] for c in colors if not (sum(c[1])<30 or sum(c[1])>720)), colors[0][1]); print('#%02x%02x%02x' % best)\" > /tmp/dominant_color.txt"
-        
-        var cmd = getSingleColor + "; wal -i '" + path + "' -q -n; awww img '" + path + "' || swww img '" + path + "' || hyprctl hyprpaper wallpaper '," + path + "'"
+        var cmd = "awww img '" + path + "' || swww img '" + path + "' || hyprctl hyprpaper wallpaper '," + path + "'"
         setWallpaperProcess.exec(["sh", "-c", cmd])
         root.requestClose()
     }
@@ -80,6 +78,7 @@ Item {
         anchors.margins: 10
         spacing: 8
 
+      
         RowLayout {
             Layout.fillWidth: true
 
@@ -108,6 +107,7 @@ Item {
             Layout.fillHeight: true
         }
 
+       
         GridView {
             id: grid
             Layout.fillWidth: true

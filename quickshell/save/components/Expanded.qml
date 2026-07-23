@@ -23,35 +23,12 @@ Item {
     property string minutes: ""
     property string ampm: ""
 
+    property bool dndActive: false
     property string latestNotifAppName: ""
     property string latestNotifSummary: ""
     property string latestNotifBody: ""
     property bool showNotifBanner: false
     property int unreadCount: 0
-
-    // Signal to request closing the expanded island
-    signal requestClose()
-
-    // ==========================================
-    // 5-SECOND INACTIVITY AUTO-CLOSE TIMER
-    // ==========================================
-    Timer {
-        id: inactivityTimer
-        interval: 5000 // 5 seconds
-        repeat: false
-        running: false
-        onTriggered: {
-            root.requestClose();
-        }
-    }
-
-    onVisibleChanged: {
-        if (visible) {
-            inactivityTimer.restart();
-        } else {
-            inactivityTimer.stop();
-        }
-    }
 
     function updateClock() {
         let d = new Date();
@@ -66,22 +43,21 @@ Item {
         wsProc.running = true;
     }
 
-    // ==========================================
-    // NOTIFICATION SERVER
-    // ==========================================
+    
     NotificationServer {
         id: notifServer
         keepOnReload: true
         bodySupported: true
 
         onNotification: (notification) => {
-            root.latestNotifAppName = notification.appName !== "" ? notification.appName : "Notification";
-            root.latestNotifSummary = notification.summary !== "" ? notification.summary : "";
-            root.latestNotifBody = notification.body !== "" ? notification.body : "";
-            root.showNotifBanner = true;
-            root.unreadCount++;
-            notifTimer.restart();
-            inactivityTimer.restart();
+            if (!root.dndActive) {
+                root.latestNotifAppName = notification.appName !== "" ? notification.appName : "Notification";
+                root.latestNotifSummary = notification.summary !== "" ? notification.summary : "";
+                root.latestNotifBody = notification.body !== "" ? notification.body : "";
+                root.showNotifBanner = true;
+                root.unreadCount++;
+                notifTimer.restart();
+            }
         }
     }
 
@@ -123,14 +99,29 @@ Item {
         }
     }
 
-    // ==========================================
-    // SYSTEM PROCESSES
-    // ==========================================
+    
 
     Process {
         id: wsProc
         running: false
         command: []
+    }
+
+    Process {
+        id: dndProc
+        running: false
+        command: []
+    }
+
+    Process {
+        id: checkSwayncDnd
+        command: ["swaync-client", "-D"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.dndActive = (text.trim() === "true");
+            }
+        }
     }
 
     Process {
@@ -199,15 +190,14 @@ Item {
         }
     }
 
+    
     Process {
         id: volSetter
         running: false
         command: []
     }
 
-    // ==========================================
-    // UI LAYOUT
-    // ==========================================
+   
 
     Column {
         id: clockCol
@@ -328,7 +318,6 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
     }
 
-    // NOTIFICATION BANNER CARD
     Rectangle {
         id: notifCard
         visible: root.showNotifBanner && !root.musicPlaying
@@ -391,7 +380,6 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        inactivityTimer.restart();
                         root.showNotifBanner = false;
                     }
                 }
@@ -408,12 +396,13 @@ Item {
         width: 210
         spacing: 12
 
-        // WORKSPACES BAR (1 to 10)
+      
         Row {
             width: parent.width
             spacing: 6
             anchors.horizontalCenter: parent.horizontalCenter
 
+           
             Row {
                 spacing: 2
                 anchors.verticalCenter: parent.verticalCenter
@@ -423,7 +412,7 @@ Item {
 
                     delegate: Rectangle {
                         id: wsBtn
-                        width: 15
+                        width: 13
                         height: 20
                         radius: 4
 
@@ -449,7 +438,6 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             onClicked: {
-                                inactivityTimer.restart();
                                 root.switchToWorkspace(wsBtn.wsId);
                             }
                         }
@@ -459,7 +447,7 @@ Item {
 
             Item { width: 2 } 
 
-            // UNREAD NOTIFICATION BADGE
+           
             Rectangle {
                 visible: root.unreadCount > 0
                 width: 28
@@ -488,14 +476,46 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        inactivityTimer.restart();
                         root.showNotifBanner = !root.showNotifBanner;
+                    }
+                }
+            }
+
+         
+            Rectangle {
+                id: dndBtn
+                width: 20
+                height: 20
+                radius: 5
+                anchors.verticalCenter: parent.verticalCenter
+
+                color: root.dndActive ? "#ffffff" : "#111111"
+                border.width: 1
+                border.color: root.dndActive ? "#ffffff" : (dndMouse.containsMouse ? "#555555" : "#1a1a1a")
+
+                Behavior on color { ColorAnimation { duration: 150 } }
+
+                Text {
+                    text: root.dndActive ? "🔕" : "🔔"
+                    font.pixelSize: 10
+                    anchors.centerIn: parent
+                    color: root.dndActive ? "#000000" : "#ffffff"
+                }
+
+                MouseArea {
+                    id: dndMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        root.dndActive = !root.dndActive;
+                        dndProc.command = ["swaync-client", "-d", "-sw"];
+                        dndProc.running = true;
                     }
                 }
             }
         }
 
-        // VOLUME SLIDER
+      
         Row {
             width: parent.width
             spacing: 8
@@ -534,7 +554,6 @@ Item {
                     anchors.fill: parent
                     
                     function updateVol(mouseX) {
-                        inactivityTimer.restart();
                         let pct = Math.max(0, Math.min(100, Math.round((mouseX / parent.width) * 100)));
                         root.vol = pct;
                         volSetter.command = ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", pct + "%"];

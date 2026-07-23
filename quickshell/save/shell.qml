@@ -11,8 +11,6 @@ PanelWindow {
 
     color: "transparent"
 
-    visible: !(Hyprland.focusedWorkspace && Hyprland.focusedWorkspace.hasFullscreen)
-
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
@@ -29,20 +27,7 @@ PanelWindow {
         item: island
     }
 
-    Theme {
-        id: themeDaemon
-    }
-
-    Timer {
-        id: autoCloseTimer
-        interval: 5000
-        repeat: false
-        running: false
-        onTriggered: {
-            island.expanded = false;
-        }
-    }
-
+    
     GlobalShortcut {
         name: "toggleAppLauncher"
         onPressed: {
@@ -55,6 +40,7 @@ PanelWindow {
         }
     }
 
+  
     GlobalShortcut {
         name: "toggleWallpaperSelector"
         onPressed: {
@@ -97,47 +83,26 @@ PanelWindow {
 
         clip: true
 
-        // --- NO BORDER ---
-        border.width: 0
-        border.color: "transparent"
+        color: expanded ? "#ff000000" : '#e9000000'
+        border.width: 1
+        border.color: '#000000'
 
-        // --- SOLID UNMIXED BACKGROUND ---
-        color: expanded ? themeDaemon.islandBg : Qt.rgba(themeDaemon.islandBg.r, themeDaemon.islandBg.g, themeDaemon.islandBg.b, 0.92)
-
-        Behavior on width { NumberAnimation { duration: 320; easing.type: Easing.OutBack; easing.overshoot: 1.25 } }
-        Behavior on height { NumberAnimation { duration: 320; easing.type: Easing.OutBack; easing.overshoot: 1.25 } }
-        Behavior on color { ColorAnimation { duration: 300 } }
+        Behavior on width { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+        Behavior on height { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
 
         onExpandedChanged: {
             focusGrab.active = expanded && (expandMode === "apps" || expandMode === "wallpapers");
-            if (expanded) {
-                autoCloseTimer.restart();
-            } else {
-                autoCloseTimer.stop();
-            }
         }
 
         onExpandModeChanged: {
             focusGrab.active = expanded && (expandMode === "apps" || expandMode === "wallpapers");
-            if (expanded) {
-                autoCloseTimer.restart();
-            }
         }
 
         MouseArea {
             anchors.fill: parent
-            hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton 
 
-            onPositionChanged: {
-                if (island.expanded && island.expandMode !== "notif") {
-                    autoCloseTimer.restart();
-                }
-            }
-
             onClicked: (mouse) => {
-                if (island.expanded) autoCloseTimer.restart();
-
                 if (mouse.button === Qt.RightButton) {
                     island.expandMode = "music";
                     island.expanded = !island.expanded;
@@ -153,6 +118,7 @@ PanelWindow {
             }
         }
 
+   
         Idle {
             id: idleView
             z: 10
@@ -170,6 +136,7 @@ PanelWindow {
             visible: !island.expanded && island.musicPlaying
         }
 
+      
         NotificationIsland {
             id: notifDaemon
             z: 10
@@ -196,7 +163,7 @@ PanelWindow {
             anchors.centerIn: parent
             visible: island.expanded && island.expandMode === "stats"
             opacity: visible ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
         }
 
         Music {
@@ -205,7 +172,7 @@ PanelWindow {
             music: musicDaemon
             visible: island.expanded && island.expandMode === "music"
             opacity: visible ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
         }
 
         AppLauncher {
@@ -213,7 +180,7 @@ PanelWindow {
             anchors.fill: parent
             visible: island.expanded && island.expandMode === "apps"
             opacity: visible ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
 
             onRequestClose: {
                 island.expanded = false;
@@ -225,7 +192,7 @@ PanelWindow {
             anchors.fill: parent
             visible: island.expanded && island.expandMode === "wallpapers"
             opacity: visible ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
+            Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
 
             onRequestClose: {
                 island.expanded = false;
