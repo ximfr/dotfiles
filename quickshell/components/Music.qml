@@ -11,7 +11,6 @@ Item {
     property var cavaValues: []
     property var music
 
-
     property string cavaConfigPath: ""
     Component.onCompleted: {
         let url = Qt.resolvedUrl("../cava.conf").toString();
@@ -36,12 +35,12 @@ Item {
         anchors.rightMargin: 20
         spacing: 8
 
-       
+        // ------------------------------------------
+        // ROW 1: [cover][title]      [visualizer]
+        // ------------------------------------------
         Item {
             width: parent.width
             height: 36
-
-           
 
             Rectangle {
                 id: coverRect
@@ -64,7 +63,6 @@ Item {
                 }
             }
 
-          
             Column {
                 id: titleCol
                 anchors.left: coverRect.right
@@ -92,8 +90,6 @@ Item {
                 }
             }
 
-           
-           
             Row {
                 id: visualizerRow
                 anchors.right: parent.right
@@ -120,7 +116,9 @@ Item {
             }
         }
 
-     
+        // ------------------------------------------
+        // ROW 2: PROGRESS BAR TIMELINE
+        // ------------------------------------------
         Row {
             width: parent.width
             height: 12
@@ -176,7 +174,9 @@ Item {
             }
         }
 
-    
+        // ------------------------------------------
+        // ROW 3: CONTROLS
+        // ------------------------------------------
         Item {
             width: parent.width
             height: 20

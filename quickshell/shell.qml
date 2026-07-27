@@ -11,6 +11,7 @@ PanelWindow {
 
     color: "transparent"
 
+    // Automatically hide when any app goes fullscreen
     visible: !(Hyprland.focusedWorkspace && Hyprland.focusedWorkspace.hasFullscreen)
 
     WlrLayershell.layer: WlrLayer.Overlay
@@ -33,6 +34,7 @@ PanelWindow {
         id: themeDaemon
     }
 
+    // 5-SECOND AUTO-CLOSE TIMER
     Timer {
         id: autoCloseTimer
         interval: 5000
@@ -67,6 +69,18 @@ PanelWindow {
         }
     }
 
+    GlobalShortcut {
+        name: "togglePowerMenu"
+        onPressed: {
+            if (island.expanded && island.expandMode === "power") {
+                island.expanded = false;
+            } else {
+                island.expandMode = "power";
+                island.expanded = true;
+            }
+        }
+    }
+
     MusicInfo {
         id: musicDaemon
     }
@@ -79,30 +93,48 @@ PanelWindow {
         }
     }
 
+    // ==========================================
+    // FLUSH TOP DYNAMIC ISLAND
+    // ==========================================
     Rectangle {
         id: island
 
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 17
+        
+        // FLUSH TO TOP EDGE
+        anchors.topMargin: 0
 
         property bool expanded: false
         property bool musicPlaying: musicDaemon.isPlaying
-        property string expandMode: "stats"
+        property string expandMode: "stats" // "stats", "music", "apps", "wallpapers", "notif", "power"
         property bool dndActive: false
 
-        width: expanded ? (expandMode === "notif" ? 380 : expandMode === "wallpapers" ? 390 : 380) : 210
-        height: expanded ? (expandMode === "notif" ? 82 : expandMode === "music" ? 140 : expandMode === "apps" ? 220 : expandMode === "wallpapers" ? 230 : 110) : 40
-        radius: 20
+        width: expanded ? (expandMode === "power" ? 380 : expandMode === "notif" ? 380 : expandMode === "wallpapers" ? 390 : 380) : 210
+        height: expanded ? (expandMode === "power" ? 90 : expandMode === "notif" ? 82 : expandMode === "music" ? 140 : expandMode === "apps" ? 220 : expandMode === "wallpapers" ? 230 : 110) : 36
+        
+        // Rounded bottom corners
+        radius: 18
 
         clip: true
 
-        // --- NO BORDER ---
         border.width: 0
         border.color: "transparent"
 
-        // --- SOLID UNMIXED BACKGROUND ---
-        color: expanded ? themeDaemon.islandBg : Qt.rgba(themeDaemon.islandBg.r, themeDaemon.islandBg.g, themeDaemon.islandBg.b, 0.92)
+        // Pure Pywal Background Color
+        color: expanded 
+               ? themeDaemon.islandBg 
+               : Qt.rgba(themeDaemon.islandBg.r, themeDaemon.islandBg.g, themeDaemon.islandBg.b, 0.95)
+
+        // Flatten top corners for MacBook notch look
+        Rectangle {
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.radius
+            color: parent.color
+            z: -1
+        }
 
         Behavior on width { NumberAnimation { duration: 320; easing.type: Easing.OutBack; easing.overshoot: 1.25 } }
         Behavior on height { NumberAnimation { duration: 320; easing.type: Easing.OutBack; easing.overshoot: 1.25 } }
@@ -153,15 +185,17 @@ PanelWindow {
             }
         }
 
+        // --- IDLE VIEW ---
         Idle {
             id: idleView
             z: 10
             anchors.centerIn: parent
             visible: !island.expanded && !island.musicPlaying
-            dndActive: island.dndActive
             unreadCount: notifDaemon.unreadCount
-            onToggleDnd: {
-                island.dndActive = !island.dndActive;
+
+            onOpenPowerMenu: {
+                island.expandMode = "power";
+                island.expanded = true;
             }
         }
 
@@ -170,6 +204,7 @@ PanelWindow {
             visible: !island.expanded && island.musicPlaying
         }
 
+        // --- NOTIFICATION DAEMON ---
         NotificationIsland {
             id: notifDaemon
             z: 10
@@ -197,6 +232,10 @@ PanelWindow {
             visible: island.expanded && island.expandMode === "stats"
             opacity: visible ? 1.0 : 0.0
             Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
+
+            onRequestClose: {
+                island.expanded = false;
+            }
         }
 
         Music {
@@ -224,6 +263,18 @@ PanelWindow {
             id: wallpaperView
             anchors.fill: parent
             visible: island.expanded && island.expandMode === "wallpapers"
+            opacity: visible ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
+
+            onRequestClose: {
+                island.expanded = false;
+            }
+        }
+
+        PowerMenu {
+            id: powerView
+            anchors.centerIn: parent
+            visible: island.expanded && island.expandMode === "power"
             opacity: visible ? 1.0 : 0.0
             Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
 

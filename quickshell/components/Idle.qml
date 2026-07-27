@@ -5,10 +5,9 @@ Item {
     id: root
 
     property bool expanded: false
-
-    property bool dndActive: false
     property int unreadCount: 0
-    signal toggleDnd()
+
+    signal openPowerMenu()
 
     implicitWidth: row.implicitWidth
     implicitHeight: row.implicitHeight
@@ -19,7 +18,7 @@ Item {
         interval: 1000
 
         onTriggered: {
-            time.text = Qt.formatDateTime(new Date(), "h:mm AP") // 12-Hour clock
+            time.text = Qt.formatDateTime(new Date(), "h:mm AP")
             date.text = Qt.formatDateTime(new Date(), "dd MMM")
             day.text = Qt.formatDateTime(new Date(), "ddd")
         }
@@ -34,7 +33,7 @@ Item {
         Text {
             id: time
 
-            text: Qt.formatDateTime(new Date(), "h:mm AP") // 12-Hour clock
+            text: Qt.formatDateTime(new Date(), "h:mm AP")
 
             color: "white"
             font.pixelSize: expanded ? 22 : 18
@@ -94,10 +93,71 @@ Item {
             }
         }
 
-      
-        
+        // --- UNREAD NOTIFICATION BADGE ---
+        Rectangle {
+            id: notifBadge
+            visible: root.unreadCount > 0
+            Layout.preferredWidth: 26
+            Layout.preferredHeight: 18
+            radius: 5
+            color: "#1c1c1c"
+            border.width: 1
+            border.color: "#333333"
 
-       
-       
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: 2
+
+                Text {
+                    text: "💬"
+                    font.pixelSize: 8
+                }
+
+                Text {
+                    text: root.unreadCount.toString()
+                    color: "white"
+                    font.pixelSize: 8
+                    font.bold: true
+                }
+            }
+        }
+
+        // --- POWER MENU BUTTON ---
+        Rectangle {
+            id: powerBtn
+            Layout.preferredWidth: 20
+            Layout.preferredHeight: 20
+            radius: 5
+
+            color: powerMouse.containsMouse ? "#221111" : "#111111"
+            border.width: 1
+            border.color: powerMouse.containsMouse ? "#ff5555" : "#1a1a1a"
+
+            Behavior on color { ColorAnimation { duration: 150 } }
+
+            Text {
+                text: "⏻"
+                font.pixelSize: 10
+                anchors.centerIn: parent
+                color: powerMouse.containsMouse ? "#ff5555" : "#888888"
+            }
+
+            MouseArea {
+                id: powerMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                preventStealing: true
+                cursorShape: Qt.PointingHandCursor
+
+                onPressed: (mouse) => {
+                    mouse.accepted = true;
+                }
+
+                onClicked: (mouse) => {
+                    mouse.accepted = true;
+                    root.openPowerMenu();
+                }
+            }
+        }
     }
 }
