@@ -1,0 +1,11 @@
+module components
+
+Idle 1.0 Idle.qml
+Expanded 1.0 Expanded.qml
+Music 1.0 Music.qml
+MusicInfo 1.0 MusicInfo.qml
+NotificationIsland 1.0 NotificationIsland.qml
+AppLauncher 1.0 AppLauncher.qml
+WallpaperSelector 1.0 WallpaperSelector.qml
+Visualizer 1.0 Visualizer.qml
+Theme 1.0 Theme.qml
